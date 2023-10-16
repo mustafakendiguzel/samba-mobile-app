@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
             data: filteredDetailedPrice,
             dataLength: filteredDetailedPrice.length,
           }
-        : { data: detailedPriceList, dataLength: detailedPriceList.length }
+        : {dataLength: detailedPriceList.length, data: detailedPriceList, }
     );
   } catch (error) {
     console.error(error);
