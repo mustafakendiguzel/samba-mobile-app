@@ -33,7 +33,7 @@ function updateDetailedPriceList(menuItemId, price) {
   request.input("MenuItemId", sql.Int, menuItemId);
 
   return new Promise((resolve, reject) => {
-    sql.query(connectionString, updateQuery, (err, rows) => {
+    request.query(connectionString, updateQuery, (err, rows) => {
       if (err) {
         reject(err);
       } else {
