@@ -29,7 +29,7 @@ function updateDetailedPriceList(menuItemId, price) {
       SET Price = @Price
       WHERE Id = @MenuItemId;
     `;
-  request.input("Price", sql.NVarChar, price);
+  request.input("Price", sql.Int, price);
   request.input("MenuItemId", sql.Int, menuItemId);
 
   return new Promise((resolve, reject) => {
