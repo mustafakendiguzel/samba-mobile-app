@@ -12,14 +12,38 @@ function getDetailedPriceList() {
   return new Promise((resolve, reject) => {
     sql.query(connectionString, query, (err, rows) => {
       if (err) {
-        reject(err); // Hata oluşursa reddedin
+        reject(err);
       } else {
-        resolve(rows); // Başarılı ise sonuçları çözün
+        resolve(rows);
+      }
+    });
+  });
+}
+
+function updateDetailedPriceList(menuItemId, price) {
+  const connectionString =
+    "server=.;Database=SAMBAPOSV5;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
+  const request = new sql.Request();
+  const updateQuery = `
+      UPDATE MenuItemPrices
+      SET Price = @Price
+      WHERE Id = @MenuItemId;
+    `;
+  request.input("Price", sql.NVarChar, price);
+  request.input("MenuItemId", sql.Int, menuItemId);
+
+  return new Promise((resolve, reject) => {
+    sql.query(connectionString, updateQuery, (err, rows) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows);
       }
     });
   });
 }
 
 module.exports = {
+  updateDetailedPriceList,
   getDetailedPriceList,
 };

@@ -1,19 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const PieSocket = require("piesocket-nodejs");
+require("dotenv").config();
 
 var piesocket = new PieSocket({
-    clusterId: 's10270.fra1',
-    apiKey: 'MdBrJajRfapopSzNvIDR8LfHRoOL3O0Y7aWuXxte',
-    secret: 'bbtDppomAS8b9xZpfCfnOPOeCRUHGXZa'
+  clusterId: process.env.CLUSTER_ID,
+  apiKey: process.env.API_KEY,
+  secret: process.env.SECRET,
 });
-
 
 router.post("/", async (req, res) => {
   try {
     JSON.parse(req.body);
-    piesocket.publish('room',"text",);
-    res.status(200).send('okey');
+    piesocket.publish("room", "text");
+    res.status(200).send("okey");
   } catch (error) {
     console.error(error);
     res.status(400).send("Bir hata oluştu.");
