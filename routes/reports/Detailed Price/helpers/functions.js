@@ -23,7 +23,7 @@ function getDetailedPriceList() {
 function updateDetailedPriceList(menuItemId, price) {
   const connectionString =
     "server=.;Database=SAMBAPOSV5;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
-  const request = new sql.Request();
+  const request = sql.Request();
   const updateQuery = `
       UPDATE MenuItemPrices
       SET Price = @Price

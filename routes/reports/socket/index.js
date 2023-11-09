@@ -1,19 +1,45 @@
 const express = require("express");
-const router = express.Router();
-const PieSocket = require("piesocket-nodejs");
 require("dotenv").config();
+const router = express.Router();
+var bodyParser = require('body-parser')
+var app = express()
+app.use(bodyParser.json({ type: 'application/*+json' }))
 
-var piesocket = new PieSocket({
-  clusterId: process.env.CLUSTER_ID,
-  apiKey: process.env.API_KEY,
-  secret: process.env.SECRET,
+var admin = require("firebase-admin");
+
+var serviceAccount = require('./sammobile-44bd2-firebase-adminsdk-6hk00-6267f7df0c.json')
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
 });
 
-router.post("/", async (req, res) => {
+var jsonParser = bodyParser.json()
+
+
+router.post("/",jsonParser, async (req, res) => {
   try {
-    JSON.parse(req.body);
-    piesocket.publish("room", "text");
-    res.status(200).send("okey");
+    const payload = {
+      notification : {
+         title : req.body.title,
+         body : req.body.body,
+      }
+    }
+    const options = {
+      priority: "high"
+    }
+
+    var registrationToken = ''
+
+    admin.firestore().collection('fcmTokens').doc(req.headers.host).get().then(function(doc) {
+      registrationToken = doc.data().token;
+      admin.messaging().sendToDevice(registrationToken, payload, options)
+    .then(function (response) {
+      res.send('message succesfully sent !')
+    })
+    .catch(function (error) {
+      res.send(error).status(500)
+    });
+    })
   } catch (error) {
     console.error(error);
     res.status(400).send("Bir hata oluştu.");
