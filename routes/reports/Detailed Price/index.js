@@ -24,7 +24,7 @@ router.put("/",jsonParser, async (req, res) => {
       menuItemId,
       price
     );
-    res.json({ data: detailedPriceList, dataLength: detailedPriceList.length });
+    res.json({data: detailedPriceList});
   } catch (error) {
     console.error(error);
     res.status(400).send("Bir hata oluştu.");

@@ -1,4 +1,5 @@
-const sql = require("msnodesqlv8");
+const msql = require('mssql');
+const sql = require('msnodesqlv8')
 
 function getDetailedPriceList() {
   const connectionString =
@@ -21,19 +22,30 @@ function getDetailedPriceList() {
 }
 
 function updateDetailedPriceList(menuItemId, price) {
-  const connectionString =
-    "server=.;Database=SAMBAPOSV5;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
-  const request = sql.Request();
+    const config = {
+      server: 'localhost',
+      database: 'SAMBAPOSV5',
+      user:'sa',
+      password:'cb.1234',
+      options:{
+        encrypt: false,
+        trustedConnection: true
+      }
+    }
+    msql.connect(config, function(err) {
+      if (err) console.log(err);
+      const request = new msql.Request();
+
+      console.log(price)
+      console.log(menuItemId)
+  
   const updateQuery = `
       UPDATE MenuItemPrices
-      SET Price = @Price
-      WHERE Id = @MenuItemId;
+      SET Price = ${price}
+      WHERE MenuItemPortionId = ${menuItemId};
     `;
-  request.input("Price", sql.Int, price);
-  request.input("MenuItemId", sql.Int, menuItemId);
-
   return new Promise((resolve, reject) => {
-    request.query(connectionString, updateQuery, (err, rows) => {
+    request.query(updateQuery, (err, rows) => {
       if (err) {
         reject(err);
       } else {
@@ -41,6 +53,8 @@ function updateDetailedPriceList(menuItemId, price) {
       }
     });
   });
+    });
+  
 }
 
 module.exports = {

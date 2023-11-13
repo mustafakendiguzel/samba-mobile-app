@@ -1,5 +1,4 @@
 const express = require("express");
-const sql = require("msnodesqlv8");
 const port = 3000;
 const connectionString =
   "server=.;Database=SAMBAPOSV5;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
