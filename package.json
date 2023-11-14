@@ -15,12 +15,10 @@
     "express": "^4.18.2",
     "msnodesqlv8": "^4.1.0",
     "mssql": "^10.0.1",
-    "piesocket-nodejs": "^1.1.0"
+    "piesocket-nodejs": "^1.1.0",
+    "firebase-admin": "11.11.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
-  },
-  "engines": {
-    "node": "^14"
   }
 }

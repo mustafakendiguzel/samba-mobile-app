@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sambapos-sql-server
+    environment:
+      SA_PASSWORD: cb.12345678
+      ACCEPT_EULA: Y
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+    networks:
+      - sambapos-network
+
+networks:
+  sambapos-network:
+    driver: bridge
