@@ -10,9 +10,12 @@ router.get("/", async (req, res) => {
   try {
     const pageSize = parseInt(req.query.pageSize) || 10;
     const pageNumber = parseInt(req.query.pageNumber) || 1;
+    const search = req.query.search;
+    console.log(search);
     const detailedPriceList = await helperFunctions.getDetailedPriceList(
       pageSize,
-      pageNumber
+      pageNumber,
+      search
     );
 
     res.json({ data: detailedPriceList, dataLength: detailedPriceList.length });
